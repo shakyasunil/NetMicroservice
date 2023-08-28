@@ -4,7 +4,9 @@ inputs:
   service:
     description: "Service to build"
     required: true
-
+  dotnet_version:
+    description: "Service to build"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -12,7 +14,7 @@ runs:
   - name: Setup .NET Core
     uses: actions/setup-dotnet@v1
     with:
-      dotnet-version: 3.1.301
+      dotnet-version: ${{ inputs.dotnet_version }}  
   - name: Install dependencies
     run: dotnet restore
     shell: bash

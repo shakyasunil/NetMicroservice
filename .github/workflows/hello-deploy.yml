@@ -7,6 +7,7 @@ on:
 
 env:
   SERVICE: HelloWorld
+  DOTNET_VERSION: '6.0.401'
 jobs:
   build_zip:
     runs-on: ubuntu-latest
@@ -17,4 +18,5 @@ jobs:
     - uses: ./.github/workflows/build
       with:
         service: ${{ env.SERVICE }}
+        dotnet_version: ${{ env.DOTNET_VERSION }}
         

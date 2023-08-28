@@ -28,5 +28,5 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: bash
     run: |
-      ls -al .\bin\publish\dll\
+      ls -al ./bin/publish/dll/
     working-directory: ./services/${{ inputs.service }}

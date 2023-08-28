@@ -25,3 +25,8 @@ runs:
       dotnet build --configuration Release --no-restore --output .\bin\publish\dll
       Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}
+  - name: Compose build ${{ inputs.service }}
+    shell: bash
+    run: |
+      ls -al .\bin\publish\dll\
+    working-directory: ./services/${{ inputs.service }}

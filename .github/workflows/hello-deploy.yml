@@ -38,6 +38,5 @@ jobs:
             Expand-Archive./services/${{ inputs.service }}/bin/${{ inputs.service }}.zip  -DestinationPath ./
             Get-ChildItem
             docker build -t ${{ inputs.service }}:latest .
-          with:
-            service: ${{ env.SERVICE }}   
+
       

@@ -15,6 +15,7 @@ runs:
       dotnet-version: 3.1.301
   - name: Install dependencies
     run: dotnet restore
+    shell: bash
     working-directory: ./services/${{ inputs.service }}  
   - name: Compose build ${{ inputs.service }}
     shell: bash

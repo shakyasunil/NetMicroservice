@@ -21,5 +21,7 @@ runs:
     working-directory: ./services/${{ inputs.service }}  
   - name: Compose build ${{ inputs.service }}
     shell: bash
-    run:  dotnet build --configuration Release --no-restore
+    run: |
+      dotnet build --configuration Release --no-restore --output .\bin\publish
+      Compress-Archive .\bin\publish\* .\bin\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}

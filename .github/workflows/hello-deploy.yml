@@ -36,11 +36,10 @@ jobs:
           with:
             name: ${{ env.SERVICE }} 
         - shell: pwsh
-          run: | 
-            Expand-Archive ./${{ env.SERVICE }}.zip  -DestinationPath ./
+          run: Expand-Archive ./${{ env.SERVICE }}.zip  -DestinationPath ./
         - shell: shell
           run: | 
-             ls -al
+            ls -al
             docker build -t ${{ env.IMAGE_NAME }}:latest .
 
       

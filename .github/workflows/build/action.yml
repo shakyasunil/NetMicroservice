@@ -22,7 +22,7 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: pwsh
     run: |
-      dotnet build --configuration Release --no-restore   -p:SelfContained=true -p:PublishSingleFile=true --output .\bin\publish\dll
+      dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output .\bin\publish\dll
       Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}
   - name: ls 

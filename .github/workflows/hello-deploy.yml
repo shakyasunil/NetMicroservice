@@ -23,7 +23,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.SERVICE }}
-        path: ./services/${{ inputs.service }}/bin/${{ inputs.service }}.zip
+        path: ./services/${{  env.SERVICE }}/bin/${{  env.SERVICE }}.zip
   BuildContainers:
       runs-on: ubuntu-latest
       # if: ${{ github.event_name == 'pull_request' }}
@@ -35,8 +35,8 @@ jobs:
             name: ${{ env.SERVICE }} 
         - shell: pwsh
           run: | 
-            Expand-Archive./services/${{ inputs.service }}/bin/${{ inputs.service }}.zip  -DestinationPath ./
+            Expand-Archive./services/${{  env.SERVICE }}/bin/${{ env.SERVICE }}.zip  -DestinationPath ./
             Get-ChildItem
-            docker build -t ${{ inputs.service }}:latest .
+            docker build -t ${{ env.SERVICE }}:latest .
 
       

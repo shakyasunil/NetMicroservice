@@ -9,7 +9,7 @@ env:
   SERVICE: HelloWorld
   DOTNET_VERSION: '6.0.401'
 jobs:
-  build_zip:
+  Build_zip:
     runs-on: ubuntu-latest
     # if: ${{ github.event_name == 'pull_request' }}
     steps:
@@ -19,4 +19,25 @@ jobs:
       with:
         service: ${{ env.SERVICE }}
         dotnet_version: ${{ env.DOTNET_VERSION }}
-        
+    - name: save artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.SERVICE }}
+        path: ./services/${{ inputs.service }}/bin/${{ inputs.service }}.zip
+  BuildContainers:
+      runs-on: ubuntu-latest
+      # if: ${{ github.event_name == 'pull_request' }}
+      steps:
+        - uses: actions/checkout@v3
+        - name: Download zip from
+          uses: actions/download-artifact@v3
+          with:
+            name: ${{ env.SERVICE }} 
+        - shell: pwsh
+          run: | 
+            Expand-Archive./services/${{ inputs.service }}/bin/${{ inputs.service }}.zip  -DestinationPath ./
+            Get-ChildItem
+            docker build -t ${{ inputs.service }}:latest .
+          with:
+            service: ${{ env.SERVICE }}   
+      

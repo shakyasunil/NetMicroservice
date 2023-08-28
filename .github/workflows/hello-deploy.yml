@@ -23,7 +23,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.SERVICE }}
-        path: ./services/${{  env.SERVICE }}/bin/${{  env.SERVICE }}.zip
+        path: ${{ env.SERVICE }}.zip
   BuildContainers:
       runs-on: ubuntu-latest
       # if: ${{ github.event_name == 'pull_request' }}

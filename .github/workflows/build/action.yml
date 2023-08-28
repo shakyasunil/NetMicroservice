@@ -23,5 +23,5 @@ runs:
     shell: pwsh
     run: |
       dotnet build --configuration Release --no-restore --output .\bin\publish
-      Compress-Archive .\bin\publish\* .\bin\${{ inputs.service }}.zip
+      Compress-Archive .\bin\publish\* ..\..\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}

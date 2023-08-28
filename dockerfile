@@ -16,11 +16,14 @@ EXPOSE 3000
 FROM base AS final
 WORKDIR /app
 
+ARG APP_NAME
+
 ENV SERVICE $SERVICE
 
-COPY "${SERVICE}.ddl" ./run.dll
+COPY "${APP_NAME}.ddl" ./run.dll
 
 ARG COMMIT_SHA=<not-specified>
+
 RUN echo "%SERVICE_NAME%: $COMMIT_SHA" >> ./commit.sha
 
 CMD ["dotnet", "run.dll"]

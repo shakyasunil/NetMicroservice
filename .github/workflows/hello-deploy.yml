@@ -39,6 +39,5 @@ jobs:
           run: | 
             Expand-Archive ./${{ env.SERVICE }}.zip  -DestinationPath ./
             Get-ChildItem
-            docker build -t ${{ env.IMAGE_NAME }}:latest .
-
+            
       

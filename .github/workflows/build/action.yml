@@ -17,10 +17,10 @@ runs:
       dotnet-version: ${{ inputs.dotnet_version }}  
   - name: Install dependencies
     run: dotnet restore
-    shell: bash
+    shell: pwsh
     working-directory: ./services/${{ inputs.service }}  
   - name: Compose build ${{ inputs.service }}
-    shell: bash
+    shell: pwsh
     run: |
       dotnet build --configuration Release --no-restore --output .\bin\publish
       Compress-Archive .\bin\publish\* .\bin\${{ inputs.service }}.zip

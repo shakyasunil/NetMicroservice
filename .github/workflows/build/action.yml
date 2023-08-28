@@ -22,6 +22,6 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: pwsh
     run: |
-      dotnet build --configuration Release --no-restore --output .\bin\publish
-      Compress-Archive .\bin\publish\* ..\..\${{ inputs.service }}.zip
+      dotnet build --configuration Release --no-restore --output .\bin\publish\dll
+      Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}

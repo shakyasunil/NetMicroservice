@@ -20,7 +20,7 @@ ARG APP_NAME
 
 ENV SERVICE $SERVICE
 
-COPY "${APP_NAME}.ddl" ./run.dll
+COPY "${APP_NAME}.dll" ./run.dll
 
 ARG COMMIT_SHA=<not-specified>
 

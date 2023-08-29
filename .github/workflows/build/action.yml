@@ -22,10 +22,17 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: pwsh
     run: |
-      $files = Get-ChildItem "..\..\"
+      $CurrentDirectory = Get-Location
+
+      Write-Host "Our current Working Directory is $CurrentDirectory"
+      $files = Get-ChildItem "..\..\services"
+
+      	
+      New-Item -Path "$CurrentDirectory" -Name "output" -ItemType Directory
+      
       foreach ($f in $files){
-          $outfile = $f.FullName + "out" 
-          Get-Content $f.FullName | Where-Object { ($_ -match 'step4' -or $_ -match 'step9') } | Set-Content $outfile
+          $outfile = $f.FullName 
+          Write-Host "outfile is $outfile"
       }
       dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output .\bin\publish\dll
       Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip

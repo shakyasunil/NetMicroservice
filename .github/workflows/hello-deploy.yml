@@ -35,18 +35,18 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: build
-        - shell: pwsh
+        - name: create docker images
+          shell: pwsh
           run: |
             $outputDirectory = Get-Location
             $build_path="$outputDirectory\output"
             New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
             Expand-Archive "$outputDirectory\build.zip"  -DestinationPath $build_path
             Get-ChildItem $build_path
-
             $files = Get-ChildItem "$build_path"
             foreach ($f in $files){
                  $service_name = $f.Name 
-                 docker build -t $service_name:latest  --build-arg="APP_NAME=$service_name" --build-arg="BUILD_PATH=output" .
+                 docker build -t $service_name:latest  --build-arg='APP_NAME=$service_name' --build-arg='BUILD_PATH=output' .
             }
 
         - shell: bash

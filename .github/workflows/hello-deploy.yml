@@ -39,16 +39,23 @@ jobs:
           shell: pwsh
           run: |
             $outputDirectory = Get-Location
-            $build_path="$outputDirectory\output"
-            New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
-            Expand-Archive "$outputDirectory\build.zip"  -DestinationPath $build_path
-            Get-ChildItem $build_path
-            $files = Get-ChildItem "$build_path"
+            $source_folder="source"
+            $source_path="$outputDirectory\$source_folder"
+            $build_folder="build"
+            $build_path="$outputDirectory\$build_path"
+            New-Item -Path "$outputDirectory" -Name "$source_folder" -ItemType Directory
+            New-Item -Path "$outputDirectory" -Name "$build_folder" -ItemType Directory
+
+            Expand-Archive "$outputDirectory\build.zip" -DestinationPath $source_path
+           
+            $files = Get-ChildItem "$source_path"
             foreach ($f in $files){
                  $service_name=$f.Name 
                  $image_name=$service_name.ToLower()
-                 Write-Host docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$image_name`:latest" .
-                 docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$image_name`:latest" .
+                 Write-Host docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
+                 docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
+                 New-Item -Path "$build_path" -Name "$service_name" -ItemType Directory
+                 docker save -o "$build_path\$service_name\$image_name-latest.tar" $image_name`:latest"
             }
 
         - shell: bash

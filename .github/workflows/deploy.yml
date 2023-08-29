@@ -56,8 +56,11 @@ jobs:
                  
                  docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
                  New-Item -Path "$build_path" -Name "$service_name" -ItemType Directory
-                 docker save -o "$build_path\$service_name\$image_name-latest.tar" "$image_name`:latest"
-                 
+
+                 docker save -o "$image_name-latest.tar" "$image_name`:latest"
+
+                 Copy "$image_name-latest.tar" "$build_path\$service_name\$image_name-latest.tar"
+
                  # copy applications deployment template to application folder
                  Copy "$outputDirectory\k8s\deployment.yaml" "$build_path\$service_name\deployment.yaml"
                  (Get-Content "$build_path\$service_name\deployment.yaml") -Replace "<name>", "$service_name" | Set-Content "$build_path\$service_name\deployment.yaml"
@@ -67,6 +70,8 @@ jobs:
                  Copy "$outputDirectory\k8s\service.yaml" "$build_path\$service_name\service.yaml" 
                  (Get-Content "$build_path\$service_name\service.yaml") -Replace "<name>", "$service_name" | Set-Content "$build_path\$service_name\service.yaml"
             }
+
+
 
             # create final zip 
             Compress-Archive $build_path\* $outputDirectory\deployment.zip

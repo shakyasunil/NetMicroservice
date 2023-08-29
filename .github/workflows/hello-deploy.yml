@@ -40,10 +40,11 @@ jobs:
             $outputDirectory = Get-Location
             $build_path="$outputDirectory\output"
             New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
-            Expand-Archive ./build.zip  -DestinationPath $outputDirectory
-            Get-ChildItem $outputDirectory
+            Expand-Archive "$outputDirectory\build.zip"  -DestinationPath $build_path
+            Get-ChildItem $build_path
         - shell: bash
           run: | 
             ls -al 
+            ls -al ./output
             #docker build -t ${{ env.IMAGE_NAME }}:latest  --build-arg="APP_NAME=${{ env.SERVICE }}" .
       

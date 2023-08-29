@@ -24,7 +24,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: build
-        path: build
+        path: build.zip
   BuildContainers:
       runs-on: ubuntu-latest
       needs: build_zip
@@ -37,7 +37,7 @@ jobs:
             name: build
         - shell: pwsh
           run: |
-            # Expand-Archive ./build.zip  -DestinationPath ./
+            Expand-Archive ./build.zip  -DestinationPath ./
             Get-ChildItem ./
         - shell: bash
           run: | 

@@ -23,8 +23,8 @@ runs:
     shell: pwsh
     run: |
       $CurrentDirectory = Get-Location
-      $outputDirectory=(get-item $scriptPath )
-      Write-Host "Our current outputDirectory is $outputDirectory"
+      $outputDirectory=(get-item $scriptPath ).parent.parent
+      Write-Host "Our current Working Directory is $outputDirectory"
       $files = Get-ChildItem "..\..\services"
       New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
 
@@ -32,7 +32,7 @@ runs:
           $outfile = $f.FullName 
           Write-Host "outfile is $outfile"
       }
-
+      
       dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output .\bin\publish\dll
       Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
     working-directory: ./services/${{ inputs.service }}

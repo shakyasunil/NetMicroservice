@@ -22,17 +22,19 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: pwsh
     run: |
-      $CurrentDirectory = Get-Location
-      $outputDirectory=(get-item $CurrentDirectory).parent.parent
+      $outputDirectory = Get-Location
       Write-Host "Our current Working Directory is $outputDirectory"
-      $files = Get-ChildItem "..\..\services"
+      $build_path="$outputDirectory\output"
       New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
-
+      $files = Get-ChildItem "$outputDirectory\services"
       foreach ($f in $files){
-          $outfile = $f.FullName 
-          Write-Host "outfile is $outfile"
+          $service_path = $f.FullName 
+          $service_name = $f.Name 
+          $service_build_path=$build_path\$service_name"
+          Write-Host "service_path is $service_path"
+          cd $service_path
+          New-Item -Path "$build_path" -Name " $service_name" -ItemType Directory
+          dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output  $service_build_path
+
       }
-      
-      dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output .\bin\publish\dll
-      Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
-    working-directory: ./services/${{ inputs.service }}
+      Compress-Archive $build_path\* $outputDirectory\build.zip

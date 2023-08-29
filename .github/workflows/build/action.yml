@@ -23,7 +23,7 @@ runs:
     shell: pwsh
     run: |
       $CurrentDirectory = Get-Location
-      $outputDirectory=(get-item $scriptPath ).parent.parent
+      $outputDirectory=(get-item $CurrentDirectory).parent.parent
       Write-Host "Our current Working Directory is $outputDirectory"
       $files = Get-ChildItem "..\..\services"
       New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory

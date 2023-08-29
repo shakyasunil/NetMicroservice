@@ -46,8 +46,9 @@ jobs:
             $files = Get-ChildItem "$build_path"
             foreach ($f in $files){
                  $service_name=$f.Name 
-                 Write-Host docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$service_name`:latest" .
-                 docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$service_name`:latest" .
+                 $image_name=$service_name.ToLower()
+                 Write-Host docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$image_name`:latest" .
+                 docker build --build-arg "APP_NAME=$service_name,BUILD_PATH=output"  -t "$image_name`:latest" .
             }
 
         - shell: bash

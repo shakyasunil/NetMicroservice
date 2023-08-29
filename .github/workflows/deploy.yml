@@ -73,10 +73,10 @@ jobs:
             # create final zip 
             New-Item -Path "$outputDirectory" -Name "artifacts" -ItemType Directory
 
-            Compress-Archive $build_path\* $outputDirectory\artifacts\deployment.zip
+            #Compress-Archive $build_path\* $outputDirectory\artifacts\deployment.zip
 
         - name: save artifact
           uses: actions/upload-artifact@v3
           with:
             name: deployment
-            path: artifacts
+            path: build

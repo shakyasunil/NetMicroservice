@@ -1,5 +1,5 @@
-name: "Build for PRe"
-description: "Builds a docker image without pushing"
+name: "Build for "
+description: "Builds application microservices"
 inputs:
   dotnet_version:
     description: "Services to builds"

@@ -1,9 +1,9 @@
 name: hello-deploy
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #   - dev
+  push:
+    branches:
+    - test
 
 env:
   SERVICE: HelloWorld
@@ -40,7 +40,7 @@ jobs:
         - shell: bash
           run: | 
             ls -al
-            
+
             #docker build -t ${{ env.IMAGE_NAME }}:latest  --build-arg="APP_NAME=${{ env.SERVICE }}" .
 
       

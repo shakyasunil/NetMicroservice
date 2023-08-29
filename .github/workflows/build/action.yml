@@ -30,7 +30,7 @@ runs:
       foreach ($f in $files){
           $service_path = $f.FullName 
           $service_name = $f.Name 
-          $service_build_path=$build_path\$service_name"
+          $service_build_path="$build_path\$service_name"
           Write-Host "service_path is $service_path"
           cd $service_path
           New-Item -Path "$build_path" -Name " $service_name" -ItemType Directory

@@ -35,10 +35,10 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: build
-        - shell: pwsh
-          run: |
-            Expand-Archive ./build.zip  -DestinationPath ./
-            Get-ChildItem ./
+        # - shell: pwsh
+        #   run: |
+        #     Expand-Archive ./build.zip  -DestinationPath ./
+        #     Get-ChildItem ./
         - shell: bash
           run: | 
             ls -al

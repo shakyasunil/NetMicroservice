@@ -4,34 +4,26 @@ on:
   push:
     branches:
     - test
-
 env:
-  SERVICE: HelloWorld
   DOTNET_VERSION: '6.0.401'
-  IMAGE_NAME: helloworld
 jobs:
-  Build_zip:
+  build_zip:
     runs-on: ubuntu-latest
     # if: ${{ github.event_name == 'pull_request' }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - uses: ./.github/workflows/build
+    - name: perent workflow call 
+      uses: ./.github/workflows/build
       with:
-        service: ${{ env.SERVICE }}
         dotnet_version: ${{ env.DOTNET_VERSION }}
-    - name: save artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: build
-        path: build.zip
-  BuildContainers:
+  build_containers:
       runs-on: ubuntu-latest
       needs: build_zip
       # if: ${{ github.event_name == 'pull_request' }}
       steps:
         - uses: actions/checkout@v3
-        - name: Download zip from
+        - name: Download artifact from perent job
           uses: actions/download-artifact@v3
           with:
             name: build
@@ -75,7 +67,7 @@ jobs:
 
             #Compress-Archive $build_path\* $outputDirectory\artifacts\deployment.zip
 
-        - name: save artifact
+        - name: save final artifact
           uses: actions/upload-artifact@v3
           with:
             name: deployment

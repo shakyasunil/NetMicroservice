@@ -1,11 +1,8 @@
 name: "Build for PRe"
 description: "Builds a docker image without pushing"
 inputs:
-  service:
-    description: "Service to build"
-    required: true
   dotnet_version:
-    description: "Service to build"
+    description: "Services to builds"
     required: true
 runs:
   using: "composite"
@@ -15,7 +12,7 @@ runs:
     uses: actions/setup-dotnet@v1
     with:
       dotnet-version: ${{ inputs.dotnet_version }}  
-  - name: Compose build ${{ inputs.service }}
+  - name: create applications build
     shell: pwsh
     run: |
       $outputDirectory = Get-Location
@@ -35,3 +32,8 @@ runs:
 
       }
       Compress-Archive $build_path\* $outputDirectory\build.zip
+    - name: save artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: build.zip      

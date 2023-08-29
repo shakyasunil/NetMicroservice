@@ -9,4 +9,10 @@ jobs:
       - name: create docker images
         shell: pwsh
         run: |
-           gzip 
+           docker pull httpd
+           docker save httpd |  gzip > httpd.tar.gz
+      - name: save final artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: httpd.tar.gz

@@ -37,10 +37,13 @@ jobs:
             name: build
         - shell: pwsh
           run: |
-            Expand-Archive ./build.zip  -DestinationPath ./
-            Get-ChildItem ./
+            $outputDirectory = Get-Location
+            $build_path="$outputDirectory\output"
+            New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
+            Expand-Archive ./build.zip  -DestinationPath $outputDirectory
+            Get-ChildItem $outputDirectory
         - shell: bash
           run: | 
-            ls -al
+            ls -al ./output
             #docker build -t ${{ env.IMAGE_NAME }}:latest  --build-arg="APP_NAME=${{ env.SERVICE }}" .
       

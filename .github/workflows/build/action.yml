@@ -32,8 +32,8 @@ runs:
 
       }
       Compress-Archive $build_path\* $outputDirectory\build.zip
-    - name: save artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: build
-        path: build.zip      
+  - name: save artifact
+    uses: actions/upload-artifact@v3
+    with:
+      name: build
+      path: build.zip      

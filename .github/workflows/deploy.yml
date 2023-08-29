@@ -42,7 +42,7 @@ jobs:
             $source_folder="source"
             $source_path="$outputDirectory\$source_folder"
             $build_folder="build"
-            $build_path="$outputDirectory\$build_path"
+            $build_path="$outputDirectory\$build_folder"
             New-Item -Path "$outputDirectory" -Name "$source_folder" -ItemType Directory
             New-Item -Path "$outputDirectory" -Name "$build_folder" -ItemType Directory
 

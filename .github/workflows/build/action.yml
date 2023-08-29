@@ -22,11 +22,11 @@ runs:
   - name: Compose build ${{ inputs.service }}
     shell: pwsh
     run: |
+      $files = Get-ChildItem "..\..\"
+      foreach ($f in $files){
+          $outfile = $f.FullName + "out" 
+          Get-Content $f.FullName | Where-Object { ($_ -match 'step4' -or $_ -match 'step9') } | Set-Content $outfile
+      }
       dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output .\bin\publish\dll
       Compress-Archive .\bin\publish\dll\* ..\..\${{ inputs.service }}.zip
-    working-directory: ./services/${{ inputs.service }}
-  - name: ls 
-    shell: bash
-    run: |
-      ls -al ./bin/publish/dll/
     working-directory: ./services/${{ inputs.service }}

@@ -1,16 +1,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: HelloWorld
+  name: <name>
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app:  HelloWorld
+        app:  <name>
     spec:
       containers:
-      - name:  HelloWorld-pod
+      - name:  <name>-pod
         image: <image>
         ports: 
         - containerPort: 3000

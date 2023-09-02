@@ -44,7 +44,7 @@ jobs:
             foreach ($f in $files){
                  $service_name=$f.Name 
                  $image_name=$service_name.ToLower()
-                 Write-Host docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
+                 Write-Host docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" --build-arg "COMMIT_SHA=$Hash"  -t "$image_name`:latest" .
                  
                  docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
                  New-Item -Path "$build_path" -Name "$service_name" -ItemType Directory

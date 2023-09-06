@@ -16,6 +16,7 @@ runs:
     shell: pwsh
     run: |
       $outputDirectory = Get-Location
+      $version=1.0.0
       Write-Host "Our current Working Directory is $outputDirectory"
       $build_path="$outputDirectory\output"
       New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
@@ -23,7 +24,7 @@ runs:
       foreach ($f in $files){
           $service_path = $f.FullName 
           $service_name = $f.Name 
-          $service_build_path="$build_path\$service_name"
+          $service_build_path="$build_path\$service_name\$version"
           Write-Host "service_path is $service_path"
           cd $service_path
           dotnet restore

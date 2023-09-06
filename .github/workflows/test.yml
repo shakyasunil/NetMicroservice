@@ -57,19 +57,19 @@ jobs:
                  Copy "$image_name-latest.tar.gz" "$service_output_path\$image_name-latest.tar.gz"
 
                  # copy applications deployment template to output folder and rename to deployment.yaml
-                 Copy "$outputDirectory\k8s\${service_name}_deployment.yaml" "$service_output_path\deployment.yaml"
+                 Copy "$currentPath\k8s\${service_name}_deployment.yaml" "$service_output_path\deployment.yaml"
                  (Get-Content "$service_output_path\deployment.yaml") -Replace "<name>", "$service_name" | Set-Content "$service_output_path\deployment.yaml"
                  (Get-Content "$service_output_path\deployment.yaml") -Replace "<image>", "$image_name`:latest" | Set-Content "$service_output_path\deployment.yaml"
 
                  # Copy Service template to output folder and rename to service.yaml
-                 Copy "$outputDirectory\k8s\${service_name}_service.yaml" "$service_output_path\service.yaml" 
+                 Copy "$currentPath\k8s\${service_name}_service.yaml" "$service_output_path\service.yaml" 
                  (Get-Content "$service_output_path\service.yaml") -Replace "<name>", "$service_name" | Set-Content "$service_output_path\service.yaml"
 
             }
             # create final zip 
             New-Item -Path "$currentPath" -Name "artifacts" -ItemType Directory
 
-            #Compress-Archive $build_path\* $outputDirectory\artifacts\deployment.zip
+            #Compress-Archive $build_path\* $currentPath\artifacts\deployment.zip
 
         - name: save final artifact
           uses: actions/upload-artifact@v3

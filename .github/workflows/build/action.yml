@@ -36,11 +36,10 @@ runs:
           dotnet build --configuration Release --no-restore  --output $service_build_path
       }
       Copy-Item $currentPath\$perent_folder_name\* $build_path -Exclude @("services") -Recurse
-
       Compress-Archive $build_path\* $currentPath\build.zip
 
   - name: save artifact
     uses: actions/upload-artifact@v3
     with:
       name: build
-      path: build.zip      
+      path: output      

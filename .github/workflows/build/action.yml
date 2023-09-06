@@ -28,8 +28,9 @@ runs:
           Write-Host "service_path is $service_path"
           cd $service_path
           dotnet restore
-          New-Item -Path "$build_path\$service_name\$version" -ItemType Directory -Force
-          dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output  $service_build_path
+          New-Item -Path "$service_build_path" -ItemType Directory -Force
+          echo  $service_build_path
+          dotnet build --configuration Release --no-restore  -p:PublishSingleFile=true --output  $service_build_path
 
       }
       Compress-Archive $build_path\* $outputDirectory\build.zip

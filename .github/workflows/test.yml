@@ -53,9 +53,9 @@ jobs:
                  # get service latest version
                  $version=Get-ChildItem $source_path/services/$service_name -directory | Where{$_.name -match "(.*)$"}  | ForEach{[pscustomobject]@{'base'=$matches[1]}} | group base | ForEach{($_.Name)} | Select -Last 1
                  
-                 Write-Host docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_folders\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
+                 Write-Host docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_path\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
 
-                 docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_folders\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
+                 docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_path\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
 
                  docker save  "$image_name`:latest" |  gzip > "$image_name-latest.tar.gz"
                  Copy "$image_name-latest.tar.gz" "$service_output_path\$image_name-latest.tar.gz"

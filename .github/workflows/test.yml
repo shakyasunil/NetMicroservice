@@ -47,12 +47,16 @@ jobs:
                  $service_name=$f.Name 
                  $service_output_path="$build_path\$service_name"
                  Write-Host "service_name is $service_name, service_output_path is $service_output_path"
+                 
                  New-Item -Path "$service_output_path" -ItemType Directory -Force
 
                  # get service latest version
                  $version=Get-ChildItem $source_path/services/$service_name -directory | Where{$_.name -match "(.*)$"}  | ForEach{[pscustomobject]@{'base'=$matches[1]}} | group base | ForEach{($_.Name)} | Select -Last 1
                  
+                 Write-Host docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_folders\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
+
                  docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_folders\services" --build-arg "COMMIT_SHA=$GITHUB_SHA" -t "$image_name`:latest" .
+
                  docker save  "$image_name`:latest" |  gzip > "$image_name-latest.tar.gz"
                  Copy "$image_name-latest.tar.gz" "$service_output_path\$image_name-latest.tar.gz"
 
@@ -66,11 +70,7 @@ jobs:
                  (Get-Content "$service_output_path\service.yaml") -Replace "<name>", "$service_name" | Set-Content "$service_output_path\service.yaml"
 
             }
-            # create final zip 
-            New-Item -Path "$currentPath" -Name "artifacts" -ItemType Directory
-
-            #Compress-Archive $build_path\* $currentPath\artifacts\deployment.zip
-
+           
         - name: save final artifact
           uses: actions/upload-artifact@v3
           with:

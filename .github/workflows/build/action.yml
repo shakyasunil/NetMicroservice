@@ -28,8 +28,7 @@ runs:
           Write-Host "service_path is $service_path"
           cd $service_path
           dotnet restore
-          New-Item -Path "$build_path\$service_name" -Name " $version" -ItemType Directory
-          
+          New-Item -Path "$build_path\$service_name\$version" -ItemType Directory -Force
           dotnet build --configuration Release --no-restore   -p:PublishSingleFile=true --output  $service_build_path
 
       }

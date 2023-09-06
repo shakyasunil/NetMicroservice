@@ -50,7 +50,7 @@ jobs:
 
                  Write-Host docker build --build-arg "APP_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "BUILD_PATH=$source_folder"  -t "$image_name`:latest" .
                  
-                 docker build --build-arg "APP_NAME=$service_name" --build-arg "BUILD_PATH=$source_folder" -t "$image_name`:latest" .
+                 docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "SOURCE_PATH=$source_folder" -t "$image_name`:latest" .
                  New-Item -Path "$build_path" -Name "$service_name" -ItemType Directory
 
                  docker save  "$image_name`:latest" |  gzip > "$image_name-latest.tar.gz"

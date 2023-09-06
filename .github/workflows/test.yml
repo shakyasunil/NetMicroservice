@@ -45,7 +45,7 @@ jobs:
             $files = Get-ChildItem "$source_path\services"
             foreach ($f in $files){
                  $service_name=$f.Name 
-                 $service_output_path=$build_path\$service_name
+                 $service_output_path="$build_path\$service_name"
                  Write-Host "service_name is $service_name, service_output_path is $service_output_path"
                  New-Item -Path "$service_output_path" -ItemType Directory -Force
 

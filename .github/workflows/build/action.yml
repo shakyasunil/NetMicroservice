@@ -17,7 +17,7 @@ runs:
     run: |
       $currentPath = Get-Location
       $app_version="1.0.0"
-      $perent_folder_name=parent
+      $perent_folder_name="parent"
       Write-Host "Our current Working Directory is $currentPath"
       $build_path="$currentPath\output"
       New-Item -Path "$currentPath" -Name "output" -ItemType Directory
@@ -37,7 +37,7 @@ runs:
       }
       Copy-Item $currentPath\$perent_folder_name\* $build_path -Exclude @("services") -Recurse
       Compress-Archive $build_path\* $currentPath\build.zip
-      
+
   - name: save artifact
     uses: actions/upload-artifact@v3
     with:

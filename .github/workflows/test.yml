@@ -17,3 +17,41 @@ jobs:
       uses: ./.github/workflows/build
       with:
         dotnet_version: ${{ env.DOTNET_VERSION }}
+build_containers:
+      runs-on: ubuntu-latest
+      needs: build_zip
+      # if: ${{ github.event_name == 'pull_request' }}
+      steps:
+        - uses: actions/checkout@v3
+        - name: Download artifact from perent job
+          uses: actions/download-artifact@v3
+          with:
+            name: build
+        - name: create docker images
+          shell: pwsh
+          run: |
+            $currentPath = Get-Location
+            $source_folder="source"
+            $source_path="$currentPath\$source_folder"
+            $build_folder="build"
+            $build_path="$currentPath\$build_folder"
+            New-Item -Path "$currentPath" -Name "$source_folder" -ItemType Directory
+            New-Item -Path "$currentPath" -Name "$build_folder" -ItemType Directory
+
+            Expand-Archive "$currentPath\build.zip" -DestinationPath $source_path
+           
+            $files = Get-ChildItem "$source_path\services"
+            foreach ($f in $files){
+                 $service_name=$f.Name 
+                 Write-Host "service_name is $service_name"
+            }
+            # create final zip 
+            New-Item -Path "$currentPath" -Name "artifacts" -ItemType Directory
+
+            #Compress-Archive $build_path\* $outputDirectory\artifacts\deployment.zip
+
+        - name: save final artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: deployment
+            path: build

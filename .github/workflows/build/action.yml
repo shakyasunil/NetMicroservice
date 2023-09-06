@@ -35,7 +35,8 @@ runs:
           Get-ChildItem "$service_build_path"
           dotnet build --configuration Release --no-restore  --output $service_build_path
       }
-      Copy-Item $currentPath\$perent_folder_name\* $build_path -Exclude @("services") -Recurse
+      Copy-Item -Path (Get-Item -Path "$currentPath\$perent_folder_name\*" -Exclude ('services')).FullName -Destination $build_path -Recurse -Force
+
       Compress-Archive $build_path\* $currentPath\build.zip
 
   - name: save artifact

@@ -26,4 +26,4 @@ COPY "${SOURCE_PATH}/services/${SERVICE_NAME}/${VERSION}" ./
 
 RUN echo "%SERVICE_NAME%: $COMMIT_SHA" >> ./commit.sha
 
-CMD ["dotnet", "${APP_NAME}.dll"]
+CMD ["dotnet", "${SERVICE_NAME}.dll"]

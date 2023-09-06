@@ -22,7 +22,7 @@ ARG COMMIT_SHA=<not-specified>
 
 ENV SERVICE $SERVICE
 
-COPY "${SOURCE_PATH}/services/${SERVICE_NAME}/${VERSION}" ./
+COPY "${SOURCE_PATH}/${SERVICE_NAME}/${VERSION}" ./
 
 RUN echo "%SERVICE_NAME%: $COMMIT_SHA" >> ./commit.sha
 

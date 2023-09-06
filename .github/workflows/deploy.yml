@@ -45,7 +45,7 @@ jobs:
                  $service_name=$f.Name 
                  $image_name=$service_name.ToLower()
 
-                 $version=Get-ChildItem $source_path/$service_name -directory | Where{$_.name -match "(.*)$"} | ForEach{[pscustomobject]@{'base'=$matches[1];'version'=$matches[2]}} | group base | ForEach{($_.Name)+($_.group|select -last 1 -ExpandProperty version)} | Select -Last 1
+                 $version=Get-ChildItem $source_path/$service_name -directory | Where{$_.name -match "(.*)$"}  | ForEach{[pscustomobject]@{'base'=$matches[1]}} | group base | ForEach{($_.Name)} | Select -Last 1
                  echo $version
 
                  Write-Host docker build --build-arg "APP_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "BUILD_PATH=$source_folder"  -t "$image_name`:latest" .
@@ -58,6 +58,7 @@ jobs:
                  Copy "$image_name-latest.tar.gz" "$build_path\$service_name\$image_name-latest.tar.gz"
 
                  # copy applications deployment template to application folder
+                 
                  Copy "$outputDirectory\k8s\${service_name}_deployment.yaml" "$build_path\$service_name\deployment.yaml"
                  (Get-Content "$build_path\$service_name\deployment.yaml") -Replace "<name>", "$service_name" | Set-Content "$build_path\$service_name\deployment.yaml"
                  (Get-Content "$build_path\$service_name\deployment.yaml") -Replace "<image>", "$image_name`:latest" | Set-Content "$build_path\$service_name\deployment.yaml"

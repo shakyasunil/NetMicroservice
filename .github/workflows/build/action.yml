@@ -16,7 +16,7 @@ runs:
     shell: pwsh
     run: |
       $outputDirectory = Get-Location
-      $version=1.0.0
+      $app_version="1.0.0"
       Write-Host "Our current Working Directory is $outputDirectory"
       $build_path="$outputDirectory\output"
       New-Item -Path "$outputDirectory" -Name "output" -ItemType Directory
@@ -24,7 +24,7 @@ runs:
       foreach ($f in $files){
           $service_path = $f.FullName 
           $service_name = $f.Name 
-          $service_build_path="$build_path\$service_name\$version"
+          $service_build_path="$build_path\$service_name\$app_version"
           Write-Host "service_path is $service_path"
           cd $service_path
           dotnet restore
@@ -33,7 +33,7 @@ runs:
           Write-Host "service_build_path is $service_build_path"
           Get-ChildItem "$build_path\$service_name"
 
-          dotnet build --configuration Release --no-restore  -p:PublishSingleFile=true --output  $service_build_path
+          #dotnet build --configuration Release --no-restore  -p:PublishSingleFile=true --output  $service_build_path
 
       }
       Compress-Archive $build_path\* $outputDirectory\build.zip

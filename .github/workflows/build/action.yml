@@ -32,7 +32,7 @@ runs:
           dotnet restore
           New-Item -Path "$service_build_path" -ItemType Directory -Force
           Write-Host "service_build_path is $service_build_path"
-          Get-ChildItem "$build_path\$service_name\$app_version"
+          Get-ChildItem "$service_build_path"
           dotnet build --configuration Release --no-restore  --output $service_build_path
       }
       Copy-Item $currentPath\$perent_folder_name\* $build_path -Exclude @("services") -Recurse

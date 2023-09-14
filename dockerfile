@@ -12,7 +12,8 @@ EXPOSE 3000
 #       eu.mia-platform.language="c#" \
 #       eu.mia-platform.framework=".net core 6.0"
 ##########################################################################
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+
 WORKDIR /app
 ARG SERVICE_NAME
 ARG SOURCE_PATH
@@ -20,10 +21,16 @@ ARG SOURCE_PATH
 ARG VERSION
 ARG COMMIT_SHA=<not-specified>
 
-ENV SERVICE $SERVICE
+ENV SERVICE=$SERVICE_NAME
 
 COPY "${SOURCE_PATH}/${SERVICE_NAME}/${VERSION}" ./
 
 RUN echo "%SERVICE_NAME%: $COMMIT_SHA" >> ./commit.sha
 
-CMD ["dotnet", "${SERVICE_NAME}.dll"]
+RUN printf "#!/bin/bash \
+\n# application starting \
+\ndotnet ${SERVICE_NAME}.dll\n" > ./script.sh
+
+RUN chmod u+x ./script.sh
+
+CMD ["./script.sh"]

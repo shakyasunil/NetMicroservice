@@ -55,7 +55,7 @@ jobs:
                
                  docker build --build-arg "SERVICE_NAME=$service_name" --build-arg "VERSION=$version" --build-arg "SOURCE_PATH=$source_folder/services" --build-arg "COMMIT_SHA=$Env:GITHUB_SHA" -t "$image_name`:latest" .
 
-                 docker save  "$image_name`:latest" |  gzip > "$image_name-latest.tar.gz"
+                 docker save ---output "$image_name-latest.tar.gz" "$image_name`:latest" 
                  Copy "$image_name-latest.tar.gz" "$service_output_path\$image_name-latest.tar.gz"
 
                  # copy applications deployment template to output folder and rename to deployment.yaml

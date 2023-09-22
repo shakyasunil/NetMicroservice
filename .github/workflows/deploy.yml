@@ -59,7 +59,7 @@ jobs:
                  docker save  "$image_name`:latest" -o image.tar 
 
                  $curDir = Get-Location 
-                 Compress-Archive -Path $curDir\*.tar  -DestinationPath "$image_name-latest.zip"
+                 Compress-Archive -Path $curDir\*.tar  -DestinationPath "$service_output_path\$image_name-latest.zip"
 
                  #Copy "$image_name-latest.zip" "$service_output_path\$image_name-latest.zip"
 
